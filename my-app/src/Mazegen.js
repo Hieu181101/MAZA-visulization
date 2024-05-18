@@ -1,6 +1,7 @@
 //Mazie size
-MazeW = 20;
-MazeH = 20;
+let MazeW = 10;
+let MazeH = 10;
+let grid = [];
 
 
 //Create a block class that would resprent a block in the maze
@@ -15,16 +16,28 @@ class block {
 }
 
 
-//create a maze that respresents the maze where all the blocks contain all walls 
-const CreateMaze = () => {
+//create a maze function that respresents the maze 
+export const CreateMaze = () => {
+    const maze = [];
     for (let i = 0; i < MazeH; i++) {
-        let row = document.createElement('div');
-        row.classList.add('row');  
-        document.appendChild(row);
+        const row = [];
         for(let j = 0; j < MazeW; j++) {
-            let collum = document.createElement('div');
-            collum.classList.add('block');
-            row.appendChild(block);
+            row.push(<div className="block" />);
+        }
+        maze.push(<div className="row">{row}</div>);
+    }
+    return maze;
+}
+
+//Now we add the grid to the Maze
+export function addGrid() {
+    for (let i = 0; i < MazeH; i++) {
+        for (let j = 0; j < MazeW; j++) {
+            grid.push(new block(i, j));
         }
     }
 }
+
+
+CreateMaze();
+addGrid();
