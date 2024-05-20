@@ -1,68 +1,19 @@
-// Maze size
-export let MazeW = 10;
-export let MazeH = 10;
-export let grid = [];
-
-// Create a block class that would represent a block in the maze
-class block {
-  constructor(x, y) {
-    this.row = x;
-    this.column = y;
-    this.wall = [true, true, true, true];
-    this.visited = false;
-    this.neighbors = [];
-  }
-
-  findNeighbors() {
-    if (this.row > 0) this.neighbors.push(grid[(this.row - 1) * MazeW + this.column]); // left neighbor
-    if (this.column > 0) this.neighbors.push(grid[this.row * MazeW + (this.column - 1)]); // top neighbor
-    if (this.row < MazeH - 1) this.neighbors.push(grid[(this.row + 1) * MazeW + this.column]); // bottom neighbor
-    if (this.column < MazeW - 1) this.neighbors.push(grid[this.row * MazeW + (this.column + 1)]); // right neighbor
-  }
-
-  show() {
-    const style = {
-      width: '35px',
-      height: '35px',
-      borderTop: this.wall[0] ? '3px solid rgb(0, 45, 114)' : 'none',
-      borderRight: this.wall[1] ? '3px solid rgb(0, 45, 114)' : 'none',
-      borderBottom: this.wall[2] ? '3px solid rgb(0, 45, 114)' : 'none',
-      borderLeft: this.wall[3] ? '3px solid rgb(0, 45, 114)' : 'none',
-      backgroundColor: this.visited ? 'red' : 'white',
-      display: 'flex',
-      justifyContent: 'center',
-      alignItems: 'center',
-      position: 'relative'
-    };
-    return style;
-  }
-}
+import React, { useState, useEffect } from 'react';
+import { MazeW, MazeH, grid, addGrid, block } from './Block.js';
 
 
 
-// Now we add the grid to the Maze
-export function addGrid() {
-  for (let i = 0; i < MazeH; i++) {
-    for (let j = 0; j < MazeW; j++) {
-      grid.push(new block(i, j));
-    }
-  }
 
-  for (let i = 0; i < MazeH; i++) {
-    for (let j = 0; j < MazeW; j++) {
-      grid[i * MazeW + j].findNeighbors();
-    }
-  }
-}
 
 //backtracing algorithm to break the wall and create a path
-export function MazeGenerator() {
+export function MazeGenerator(callback) {
   let stack = [];
-  let current = grid[0];
+  let current = grid[0]; //always start at 0,0 in the grid 
 
   current.visited = true;
+  current.inPath = true;
 
-  while (current) {
+  function step() {
     let neighbors = current.neighbors.filter(neighbor => !neighbor.visited);
 
     if (neighbors.length) {
@@ -70,18 +21,18 @@ export function MazeGenerator() {
 
       // Remove walls between current and next
       let x = current.row - next.row;
-      if (x === 1) {
+      if (x === 1) { //moving top
         current.wall[0] = false;
         next.wall[2] = false;
-      } else if (x === -1) {
+      } else if (x === -1) { //moving bottom
         current.wall[2] = false;
         next.wall[0] = false;
       }
       let y = current.column - next.column;
-      if (y === 1) {
+      if (y === 1) {  //moving left
         current.wall[3] = false;
         next.wall[1] = false;
-      } else if (y === -1) {
+      } else if (y === -1) { //moving right
         current.wall[1] = false;
         next.wall[3] = false;
       }
@@ -89,30 +40,42 @@ export function MazeGenerator() {
       stack.push(current);
       current = next;
       current.visited = true;
+      current.inPath = true; 
     } else {
+      current.inPath = false;
       current = stack.pop();
     }
+
+    const grid2D = [];
+    for (let i = 0; i < MazeH; i++) {
+      const row = [];
+      for (let j = 0; j < MazeW; j++) {
+        row.push(grid[i * MazeW + j]);
+      }
+      grid2D.push(row);
+    }
+
+    callback([...grid2D]);
+    
+    
+    if (current){
+      setTimeout(step, 50);
+    }
+
+
   }
+  step();
 }
 
 // Create the maze visualization
-export const CreateMaze = () => {
-  addGrid();
-  MazeGenerator(); // Generate the maze
+export const CreateMaze = (setBlocks) => {
+  // Ensure all blocks are reset to their initial state
+  grid.forEach(block => {
+    block.visited = false;
+    block.inPath = false;
+    block.wall = [true, true, true, true];
+  });
 
-  const maze = [];
-  for (let i = 0; i < MazeH; i++) {
-    const row = [];
-    for (let j = 0; j < MazeW; j++) {
-      row.push(
-        <div key={`${i}-${j}`} className="block" style={grid[i * MazeW + j].show()}></div>
-      );
-    }
-    maze.push(
-      <div key={i} className="row">
-        {row}
-      </div>
-    );
-  }
-  return maze;
+  addGrid();
+  MazeGenerator(setBlocks); // Generate the maze with animation
 }

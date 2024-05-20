@@ -1,12 +1,5 @@
 .App {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  height: 100vh;
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
+  text-align: center;
 }
 
 .App-logo {
@@ -43,17 +36,30 @@
     transform: rotate(360deg);
   }
 }
+
 .maze-container {
   display: flex;
   flex-direction: column;
   align-items: center;
 }
 
+.Button-container {
+  background-color: #8129df;
+  height: 100px;
+  width: 100%;
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  padding-left: 20px;
+}
+
+
 .row {
   display: flex;
   justify-content: center;
   align-items: center;
 }
+
 .block {
   height: 35px;
   width: 35px;
@@ -62,5 +68,5 @@
 }
 
 .block.visited {
-  background-color: red;
+  background-color: #5564eb;
 }
