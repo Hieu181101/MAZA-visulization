@@ -2,15 +2,17 @@ import React, { useState } from 'react';
 import './App.css';
 import { CreateMaze } from './Mazegen';
 import { BiTreeGen } from './binaryTree';
+import { PrimGen } from './Prim';
 
 function App() {
   const [blocks, setBlocks] = useState([]);
   const [startedBacktracking, setStartedBacktracking] = useState(false);
   const [startedBinaryTree, setStartedBinaryTree] = useState(false);
+  const [startedPrim, setStartedPrim] = useState(false);
 
   const handleStartBacktracking = async () => {
     setStartedBacktracking(true);
-    CreateMaze(setBlocks); // Assuming this is the backtracking algorithm
+    await CreateMaze(setBlocks); 
     setStartedBacktracking(false);
   };
 
@@ -18,6 +20,12 @@ function App() {
     setStartedBinaryTree(true);
     await BiTreeGen(setBlocks);
     setStartedBinaryTree(false);
+  };
+
+  const handleStartPrim = async () => {
+    setStartedPrim(true);
+    await PrimGen(setBlocks);
+    setStartedPrim(false);
   };
 
   return (
@@ -35,9 +43,9 @@ function App() {
             cursor: 'pointer',
             margin: '10px',
           }}
-          disabled={startedBacktracking || startedBinaryTree}
+          disabled={startedBacktracking || startedBinaryTree || startedPrim}
         >
-          {startedBacktracking ? 'Generating...' : 'Start Backtracking Maze'}
+          {startedBacktracking ? 'Generating...' : 'Recrusive Backtracking'}
         </button>
         
         <button 
@@ -52,9 +60,26 @@ function App() {
             cursor: 'pointer',
             margin: '10px',
           }}
-          disabled={startedBacktracking || startedBinaryTree}
+          disabled={startedBacktracking || startedBinaryTree || startedPrim}
         >
-          {startedBinaryTree ? 'Generating...' : 'Start Binary Tree Maze'}
+          {startedBinaryTree ? 'Generating...' : 'Binary Tree'}
+        </button>
+        
+        <button 
+          onClick={handleStartPrim}  
+          style={{
+            padding: '10px 20px',
+            fontSize: '1.2rem',
+            backgroundColor: '#FF5733',
+            color: 'white',
+            border: 'none',
+            borderRadius: '10px',
+            cursor: 'pointer',
+            margin: '10px',
+          }}
+          disabled={startedBacktracking || startedBinaryTree || startedPrim}
+        >
+          {startedPrim ? 'Generating...' : 'Prim'}
         </button>
       </div>
 
