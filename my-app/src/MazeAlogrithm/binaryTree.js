@@ -7,7 +7,9 @@ class Block {
     this.wall = [true, true, true, true];
     this.visited = false;
     this.inFronter = false;
-    this.index = false; // for current block
+    this.index = false; 
+    this.isStart = false; // Start point
+    this.isGoal = false;  // Goal point
     this.neighbors = [];
   }
 
@@ -26,12 +28,13 @@ class Block {
       borderRight: this.wall[1] ? '3px solid rgb(0, 45, 114)' : 'none',
       borderBottom: this.wall[2] ? '3px solid rgb(0, 45, 114)' : 'none',
       borderLeft: this.wall[3] ? '3px solid rgb(0, 45, 114)' : 'none',
-      backgroundColor: this.visited ? 'white' : 'white',
+      backgroundColor: this.index ? 'blue' : (this.visited ? 'white' : 'gray'),
       display: 'flex',
       justifyContent: 'center',
       alignItems: 'center',
       position: 'relative',
-      boxSizing: 'border-box'
+      boxSizing: 'border-box',
+      cursor: 'pointer' 
     };
     return style;
   }
@@ -105,13 +108,15 @@ export const BiTreeGen = async (setBlocks) => {
               block.removeWall('W');
               break;
           }
-
-          block.visited = true;
+          current.visited = true;
+          current.index = true;
           setBlocks([...transformGridTo2D()]);
 
           // Delay for animation
           await new Promise(resolve => setTimeout(resolve, 50));
+          current.index = false
         }
+        current.visited = true;
       }
     }
     setBlocks([...transformGridTo2D()]);

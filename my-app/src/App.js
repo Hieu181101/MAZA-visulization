@@ -1,86 +1,112 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import './App.css';
-import { CreateMaze } from './Mazegen';
-import { BiTreeGen } from './binaryTree';
-import { PrimGen } from './Prim';
+import { CreateMaze } from './MazeAlogrithm/Mazegen';
+import { BiTreeGen } from './MazeAlogrithm/binaryTree';
+import { PrimGen } from './MazeAlogrithm/Prim';
+import { KruskalGen } from './MazeAlogrithm/Kruskal';
+import { MazeW, MazeH, grid, addGrid, Block  } from './MazeAlogrithm/Block';
 
 function App() {
   const [blocks, setBlocks] = useState([]);
-  const [startedBacktracking, setStartedBacktracking] = useState(false);
-  const [startedBinaryTree, setStartedBinaryTree] = useState(false);
-  const [startedPrim, setStartedPrim] = useState(false);
+  const [started, setStarted] = useState(false);
+  const [settingStart, setSettingStart] = useState(true);
+
+  useEffect(() => {
+    addGrid();
+    setBlocks([...transformGridTo2D(grid)]);
+  }, []);
 
   const handleStartBacktracking = async () => {
-    setStartedBacktracking(true);
+    setStarted(true);
     await CreateMaze(setBlocks); 
-    setStartedBacktracking(false);
+    setStarted(false);
   };
 
   const handleStartBinaryTree = async () => {
-    setStartedBinaryTree(true);
+    setStarted(true);
     await BiTreeGen(setBlocks);
-    setStartedBinaryTree(false);
+    setStarted(false);
   };
 
   const handleStartPrim = async () => {
-    setStartedPrim(true);
+    setStarted(true);
     await PrimGen(setBlocks);
-    setStartedPrim(false);
+    setStarted(false);
+  };
+
+  const handleStartKruskal = async () => {
+    setStarted(true);
+    await KruskalGen(setBlocks);
+    setStarted(false);
+  };
+
+  const handleSelectionChange = async (event) => {
+    const algorithm = event.target.value;
+    switch (algorithm) {
+      case 'backtracking':
+        await handleStartBacktracking();
+        break;
+      case 'binaryTree':
+        await handleStartBinaryTree();
+        break;
+      case 'prim':
+        await handleStartPrim();
+        break;
+      case 'kruskal':
+        await handleStartKruskal();
+        break;
+      default:
+        break;
+    }
+  };
+
+  const handleBlockClick = (row, col) => {
+    grid.forEach(block => {
+      if (block.row === row && block.column === col) {
+        if (settingStart) {
+          block.isStart = true;
+          block.isGoal = false;
+        } else {
+          block.isStart = false;
+          block.isGoal = true;
+        }
+      } else {
+        if (settingStart) {
+          block.isStart = false;
+        } else {
+          block.isGoal = false;
+        }
+      }
+    });
+    setBlocks([...transformGridTo2D(grid)]);
+    setSettingStart(!settingStart);
+  };
+
+  const transformGridTo2D = (grid) => {
+    const grid2D = [];
+    for (let i = 0; i < MazeH; i++) {
+      const row = [];
+      for (let j = 0; j < MazeW; j++) {
+        row.push(grid[i * MazeW + j]);
+      }
+      grid2D.push(row);
+    }
+    return grid2D;
   };
 
   return (
     <div className="App">
-      <div className="Button-container">
-        <button 
-          onClick={handleStartBacktracking}  
-          style={{
-            padding: '10px 20px',
-            fontSize: '1.2rem',
-            backgroundColor: '#5564eb',
-            color: 'white',
-            border: 'none',
-            borderRadius: '10px',
-            cursor: 'pointer',
-            margin: '10px',
-          }}
-          disabled={startedBacktracking || startedBinaryTree || startedPrim}
+      <div className="Dropdown-container">
+        <select 
+          onChange={handleSelectionChange} 
+          disabled={started}
         >
-          {startedBacktracking ? 'Generating...' : 'Recrusive Backtracking'}
-        </button>
-        
-        <button 
-          onClick={handleStartBinaryTree}  
-          style={{
-            padding: '10px 20px',
-            fontSize: '1.2rem',
-            backgroundColor: '#34a853',
-            color: 'white',
-            border: 'none',
-            borderRadius: '10px',
-            cursor: 'pointer',
-            margin: '10px',
-          }}
-          disabled={startedBacktracking || startedBinaryTree || startedPrim}
-        >
-          {startedBinaryTree ? 'Generating...' : 'Binary Tree'}
-        </button>
-        
-        <button 
-          onClick={handleStartPrim}  
-          style={{
-            padding: '10px 20px',
-            fontSize: '1.2rem',
-            backgroundColor: '#FF5733',
-            color: 'white',
-            border: 'none',
-            borderRadius: '10px',
-            cursor: 'pointer',
-            margin: '10px',
-          }}
-          disabled={startedBacktracking || startedBinaryTree || startedPrim}
-        >
-          {startedPrim ? 'Generating...' : 'Prim'}
-        </button>
+          <option value="">Select Algorithm</option>
+          <option value="backtracking">Recursive Backtracking</option>
+          <option value="binaryTree">Binary Tree</option>
+          <option value="prim">Prim</option>
+          <option value="kruskal">Kruskal</option>
+        </select>
       </div>
 
       <h1>Maze Generator</h1>
@@ -89,7 +115,12 @@ function App() {
         {Array.isArray(blocks) && blocks.map((row, i) => (
           <div key={i} className="row">
             {row.map((block, j) => (
-              <div key={j} className="block" style={block.show()}></div>
+              <div 
+                key={j} 
+                className={`block ${block.isStart ? 'start' : ''} ${block.isGoal ? 'goal' : ''}`} 
+                style={block.show()} 
+                onClick={() => handleBlockClick(block.row, block.column)}
+              ></div>
             ))}
           </div>
         ))}

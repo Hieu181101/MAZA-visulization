@@ -1,5 +1,4 @@
-
-//maze settings
+// Block.js
 export let MazeW = 10;
 export let MazeH = 10;
 export let grid = [];
@@ -12,7 +11,9 @@ export class Block {
     this.wall = [true, true, true, true];
     this.visited = false;
     this.inFronter = false;
-    this.index = false; // for current block
+    this.index = false; // Index for the current block
+    this.isStart = false; // Start point
+    this.isGoal = false;  // Goal point
     this.neighbors = [];
   }
 
@@ -31,12 +32,13 @@ export class Block {
       borderRight: this.wall[1] ? '3px solid rgb(0, 45, 114)' : 'none',
       borderBottom: this.wall[2] ? '3px solid rgb(0, 45, 114)' : 'none',
       borderLeft: this.wall[3] ? '3px solid rgb(0, 45, 114)' : 'none',
-      backgroundColor: this.index ? 'blue' : (this.inFronter ? 'yellow' : (this.visited ? 'white' : 'grey')),
+      backgroundColor: this.isStart ? 'green' : this.isGoal ? 'red' : this.index ? 'blue' : (this.inFronter ? 'yellow' : (this.visited ? 'white' : 'grey')),
       display: 'flex',
       justifyContent: 'center',
       alignItems: 'center',
       position: 'relative',
-      boxSizing: 'border-box'
+      boxSizing: 'border-box',
+      cursor: 'pointer' 
     };
     return style;
   }

@@ -53,6 +53,18 @@
   padding-left: 20px;
 }
 
+.Dropdown-container select {
+  padding: 10px 20px;
+  font-size: 1.2rem;
+  background-color: #5a88dc;
+  color: white;
+  border: none;
+  border-radius: 10px;
+  cursor: pointer;
+  margin: 10px;
+}
+
+
 
 .row {
   display: flex;
@@ -64,7 +76,16 @@
   height: 35px;
   width: 35px;
   box-sizing: border-box;
+  cursor: pointer;
+}
 
+
+.block.start {
+  background-color: green !important;
+}
+
+.block.goal {
+  background-color: red !important;
 }
 
 .block.visited {
