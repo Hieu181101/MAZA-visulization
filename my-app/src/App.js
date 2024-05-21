@@ -5,6 +5,8 @@ import { BiTreeGen } from './MazeAlogrithm/binaryTree';
 import { PrimGen } from './MazeAlogrithm/Prim';
 import { KruskalGen } from './MazeAlogrithm/Kruskal';
 import { MazeW, MazeH, grid, addGrid, Block  } from './MazeAlogrithm/Block';
+import { BFS } from './SearchAlogrithm/BFS';
+import { DFS } from './SearchAlogrithm/DFS';
 
 function App() {
   const [blocks, setBlocks] = useState([]);
@@ -40,7 +42,22 @@ function App() {
     setStarted(false);
   };
 
+  //handle the search alogrithm 
+
+  const handleStartBFS = async () => {
+    setStarted(true);
+    await BFS(setBlocks);
+    setStarted(false);
+  };
+
+  const handleStartDFS = async () => {
+    setStarted(true);
+    await DFS(setBlocks);
+    setStarted(false);
+  };
+
   const handleSelectionChange = async (event) => {
+    //case for maze alogrithm
     const algorithm = event.target.value;
     switch (algorithm) {
       case 'backtracking':
@@ -55,10 +72,18 @@ function App() {
       case 'kruskal':
         await handleStartKruskal();
         break;
+      // Add case for the search algorithm
+      case'breadthFirstSearch':
+        await handleStartBFS();
+      case'depthFirstSearch':
+        await handleStartDFS();
+        break;
       default:
         break;
+
     }
   };
+
 
   const handleBlockClick = (row, col) => {
     grid.forEach(block => {
@@ -106,6 +131,17 @@ function App() {
           <option value="binaryTree">Binary Tree</option>
           <option value="prim">Prim</option>
           <option value="kruskal">Kruskal</option>
+        </select>
+      </div>
+
+      <div className="Dropdown-container">
+        <select 
+          onChange={handleSelectionChange} 
+          disabled={started}
+        >
+          <option value="">Select Search Algorithm</option>
+          <option value="breadthFirstSearch">breadth First Search</option>
+          <option value="depthFirstSearch">depth First Search</option>
         </select>
       </div>
 

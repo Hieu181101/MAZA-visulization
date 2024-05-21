@@ -11,7 +11,9 @@ export class Block {
     this.wall = [true, true, true, true];
     this.visited = false;
     this.inFronter = false;
-    this.index = false; // Index for the current block
+    this.index = false; // Index for the current block use for maze creation
+    this.traversal = false; // Index for the current block use for traversal
+    this.path = false; //final path for search algorthim 
     this.isStart = false; // Start point
     this.isGoal = false;  // Goal point
     this.neighbors = [];
@@ -32,7 +34,7 @@ export class Block {
       borderRight: this.wall[1] ? '3px solid rgb(0, 45, 114)' : 'none',
       borderBottom: this.wall[2] ? '3px solid rgb(0, 45, 114)' : 'none',
       borderLeft: this.wall[3] ? '3px solid rgb(0, 45, 114)' : 'none',
-      backgroundColor: this.isStart ? 'green' : this.isGoal ? 'red' : this.index ? 'blue' : (this.inFronter ? 'yellow' : (this.visited ? 'white' : 'grey')),
+      backgroundColor: this.isStart ? 'green' : this.isGoal ? 'red' : this.path ? 'purple' : this.traversal ? 'yellow' : this.index ? 'blue' : (this.inFronter ? 'yellow' : (this.visited ? 'white' : 'grey')),
       display: 'flex',
       justifyContent: 'center',
       alignItems: 'center',
