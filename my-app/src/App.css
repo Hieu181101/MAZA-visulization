@@ -73,21 +73,57 @@
 }
 
 .block {
-  height: 35px;
   width: 35px;
+  height: 35px;
+  border: 1px solid black;
   box-sizing: border-box;
-  cursor: pointer;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  transition: background-color 0.5s;
 }
 
-
 .block.start {
-  background-color: green !important;
+  background-color: green;
 }
 
 .block.goal {
-  background-color: red !important;
+  background-color: red;
+}
+
+.block.path {
+  background-color: purple;
+}
+
+.block.traversal {
+  background-color: yellow;
+}
+
+.block.current {
+  background-color: blue;
+}
+
+.block.frontier {
+  background-color: orange;
 }
 
 .block.visited {
-  background-color: #5564eb;
+  background-color: white;
+}
+
+.block.default {
+  background-color: grey;
+}
+
+@keyframes traversalAnimation {
+  from {
+    background-color: yellow;
+  }
+  to {
+    background-color: lightyellow;
+  }
+}
+
+.block.traversal {
+  animation: traversalAnimation 1s infinite alternate;
 }

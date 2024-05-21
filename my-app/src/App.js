@@ -4,23 +4,42 @@ import { CreateMaze } from './MazeAlogrithm/Mazegen';
 import { BiTreeGen } from './MazeAlogrithm/binaryTree';
 import { PrimGen } from './MazeAlogrithm/Prim';
 import { KruskalGen } from './MazeAlogrithm/Kruskal';
-import { MazeW, MazeH, grid, addGrid, Block  } from './MazeAlogrithm/Block';
+import { MazeW, MazeH, grid, addGrid } from './MazeAlogrithm/Block';
 import { BFS } from './SearchAlogrithm/BFS';
 import { DFS } from './SearchAlogrithm/DFS';
+import { Dijkstra } from './SearchAlogrithm/Dijkstra';
+import { AStar } from './SearchAlogrithm/AStar';
 
 function App() {
   const [blocks, setBlocks] = useState([]);
   const [started, setStarted] = useState(false);
-  const [settingStart, setSettingStart] = useState(true);
 
   useEffect(() => {
-    addGrid();
-    setBlocks([...transformGridTo2D(grid)]);
+    initializeGrid();
   }, []);
+
+  const initializeGrid = () => {
+    addGrid();
+    resetBlocks();
+    setBlocks([...transformGridTo2D(grid)]);
+    setStarted(false);
+  };
+
+  const resetBlocks = () => {
+    grid.forEach(block => {
+      block.visited = false;
+      block.traversal = false;
+      block.path = false;
+      block.distance = Infinity;
+      block.previous = null;
+      block.g = Infinity; 
+      block.f = Infinity; 
+    });
+  };
 
   const handleStartBacktracking = async () => {
     setStarted(true);
-    await CreateMaze(setBlocks); 
+    await CreateMaze(setBlocks);
     setStarted(false);
   };
 
@@ -42,22 +61,36 @@ function App() {
     setStarted(false);
   };
 
-  //handle the search alogrithm 
-
+  // Handle the search algorithms
   const handleStartBFS = async () => {
     setStarted(true);
+    resetBlocks();
     await BFS(setBlocks);
     setStarted(false);
   };
 
   const handleStartDFS = async () => {
     setStarted(true);
+    resetBlocks();
     await DFS(setBlocks);
     setStarted(false);
   };
 
+  const handleStartDijkstra = async () => {
+    setStarted(true);
+    resetBlocks();
+    await Dijkstra(setBlocks);
+    setStarted(false);
+  };
+
+  const handleStartAStar = async () => {
+    setStarted(true);
+    resetBlocks();
+    await AStar(setBlocks);
+    setStarted(false);
+  };
+
   const handleSelectionChange = async (event) => {
-    //case for maze alogrithm
     const algorithm = event.target.value;
     switch (algorithm) {
       case 'backtracking':
@@ -72,39 +105,51 @@ function App() {
       case 'kruskal':
         await handleStartKruskal();
         break;
-      // Add case for the search algorithm
-      case'breadthFirstSearch':
+      case 'breadthFirstSearch':
         await handleStartBFS();
-      case'depthFirstSearch':
+        break;
+      case 'depthFirstSearch':
         await handleStartDFS();
+        break;
+      case 'dijkstra':
+        await handleStartDijkstra();
+        break;
+      case 'aStar':
+        await handleStartAStar();
         break;
       default:
         break;
-
     }
   };
 
-
-  const handleBlockClick = (row, col) => {
+  const handleBlockClick = (event, row, col) => {
+    event.preventDefault();
     grid.forEach(block => {
       if (block.row === row && block.column === col) {
-        if (settingStart) {
-          block.isStart = true;
-          block.isGoal = false;
-        } else {
-          block.isStart = false;
-          block.isGoal = true;
+        if (event.button === 0) { // Left click
+          if (block.isStart) {
+            block.isStart = false;
+          } else {
+            block.isStart = true;
+            block.isGoal = false;
+          }
+        } else if (event.button === 2) { // Right click
+          if (block.isGoal) {
+            block.isGoal = false;
+          } else {
+            block.isGoal = true;
+            block.isStart = false;
+          }
         }
       } else {
-        if (settingStart) {
+        if (event.button === 0) {
           block.isStart = false;
-        } else {
+        } else if (event.button === 2) {
           block.isGoal = false;
         }
       }
     });
     setBlocks([...transformGridTo2D(grid)]);
-    setSettingStart(!settingStart);
   };
 
   const transformGridTo2D = (grid) => {
@@ -119,6 +164,15 @@ function App() {
     return grid2D;
   };
 
+  const resetMaze = () => {
+    initializeGrid();
+  };
+
+  const resetSearch = () => {
+    resetBlocks();
+    setBlocks([...transformGridTo2D(grid)]);
+  };
+
   return (
     <div className="App">
       <div className="Dropdown-container">
@@ -126,12 +180,18 @@ function App() {
           onChange={handleSelectionChange} 
           disabled={started}
         >
-          <option value="">Select Algorithm</option>
+          <option value="">Select Maze Algorithm</option>
           <option value="backtracking">Recursive Backtracking</option>
           <option value="binaryTree">Binary Tree</option>
           <option value="prim">Prim</option>
           <option value="kruskal">Kruskal</option>
         </select>
+        <button 
+          onClick={resetMaze} 
+          disabled={started}
+        >
+          Reset Maze
+        </button>
       </div>
 
       <div className="Dropdown-container">
@@ -140,9 +200,17 @@ function App() {
           disabled={started}
         >
           <option value="">Select Search Algorithm</option>
-          <option value="breadthFirstSearch">breadth First Search</option>
-          <option value="depthFirstSearch">depth First Search</option>
+          <option value="breadthFirstSearch">Breadth-First Search</option>
+          <option value="depthFirstSearch">Depth-First Search</option>
+          <option value="dijkstra">Dijkstra's Algorithm</option>
+          <option value="aStar">A* Algorithm</option>
         </select>
+        <button 
+          onClick={resetSearch} 
+          disabled={started}
+        >
+          Reset Search
+        </button>
       </div>
 
       <h1>Maze Generator</h1>
@@ -155,7 +223,8 @@ function App() {
                 key={j} 
                 className={`block ${block.isStart ? 'start' : ''} ${block.isGoal ? 'goal' : ''}`} 
                 style={block.show()} 
-                onClick={() => handleBlockClick(block.row, block.column)}
+                onMouseDown={(e) => handleBlockClick(e, block.row, block.column)}
+                onContextMenu={(e) => e.preventDefault()}
               ></div>
             ))}
           </div>

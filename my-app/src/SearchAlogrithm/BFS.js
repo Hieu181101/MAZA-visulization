@@ -40,7 +40,7 @@ export const BFS = async (setBlocks) => {
                 }
             }
             
-            current.traversal = false;
+            current.traversal = true;
             current.visited = true;
             setBlocks([...transformGridTo2D(grid)]);
             await new Promise(resolve => setTimeout(resolve, 50));

@@ -16,6 +16,10 @@ export class Block {
     this.path = false; //final path for search algorthim 
     this.isStart = false; // Start point
     this.isGoal = false;  // Goal point
+    this.distance = Infinity; // For Dijkstra's algorithm
+    this.g = Infinity; // For A* algorithm
+    this.f = Infinity; // For A* algorithm
+    this.previous = null;
     this.neighbors = [];
   }
 
