@@ -7,6 +7,7 @@ export const PrimGen = async (setBlocks) => {
     block.index = false; 
     block.inFronter = false;
     block.wall = [true, true, true, true];
+    
   });
 
   addGrid();

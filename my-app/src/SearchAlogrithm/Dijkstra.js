@@ -1,5 +1,6 @@
 import { MazeW, MazeH, grid, addGrid, Block } from '../MazeAlogrithm/Block';
 
+
 export const Dijkstra = async (setBlocks) => {
     let startNode = grid.find(block => block.isStart);
     let endNode = grid.find(block => block.isGoal);

@@ -73,8 +73,8 @@
 }
 
 .block {
-  width: 35px;
-  height: 35px;
+  width: 30px;
+  height: 30px;
   border: 1px solid black;
   box-sizing: border-box;
   display: flex;
@@ -115,6 +115,13 @@
   background-color: grey;
 }
 
+.block.wall {
+  border-top: 3px solid rgb(0, 45, 114);
+  border-right: 3px solid rgb(0, 45, 114);
+  border-bottom: 3px solid rgb(0, 45, 114);
+  border-left: 3px solid rgb(0, 45, 114);
+}
+
 @keyframes traversalAnimation {
   from {
     background-color: yellow;
@@ -126,4 +133,79 @@
 
 .block.traversal {
   animation: traversalAnimation 1s infinite alternate;
+}
+
+/* Navbar container */
+.navbar {
+  overflow: hidden;
+  background-color: #333;
+  font-family: Arial;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+
+/* The dropdown container */
+.dropdown {
+  float: left;
+  overflow: hidden;
+}
+
+/* Dropdown button */
+.dropdown .dropbtn {
+  font-size: 16px;
+  border: none;
+  outline: none;
+  color: white;
+  padding: 14px 16px;
+  background-color: inherit;
+  font-family: inherit; /* Important for vertical align on mobile phones */
+  margin: 0; /* Important for vertical align on mobile phones */
+}
+
+
+
+/* Add a red background color to navbar links on hover */
+.navbar a:hover, .dropdown:hover .dropbtn, .dropdown-content .content:hover{
+  background-color: red;
+}
+
+/* Dropdown content (hidden by default) */
+.dropdown-content {
+  display: none;
+  position: absolute;
+  background-color: #f9f9f9;
+  padding: 14px 16px;
+  min-width: 100px;
+  box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+  z-index: 1;
+}
+
+/* Links inside the dropdown */
+.dropdown-content .content {
+  float: none;
+  color: black;
+  padding: 12px 16px;
+  text-decoration: none;
+  display: flex;
+  text-align: center;
+  border: none;
+  background: none;
+  cursor: pointer;
+}
+
+
+/* Show the dropdown menu on hover */
+.dropdown:hover .dropdown-content {
+  display: block;
+}
+
+/* Add a grey background color to dropdown links on hover */
+.dropdown-content .content:hover {
+  background-color: #ddd;
+}
+
+.button {
+  border: none;
 }

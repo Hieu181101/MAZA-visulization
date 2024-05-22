@@ -1,7 +1,17 @@
 // Block.js
-export let MazeW = 10;
-export let MazeH = 10;
+
+//default is large
+export let MazeW = 5;
+export let MazeH = 5;
 export let grid = [];
+
+export const setMazeWidth = (width) => {
+  MazeW = width;
+};
+
+export const setMazeHeight = (height) => {
+  MazeH = height;
+};
 
 // Create a Block class that represents a block in the maze
 export class Block {
@@ -32,8 +42,8 @@ export class Block {
 
   show() {
     const style = {
-      width: '35px',
-      height: '35px',
+      width: '30px',
+      height: '30px',
       borderTop: this.wall[0] ? '3px solid rgb(0, 45, 114)' : 'none',
       borderRight: this.wall[1] ? '3px solid rgb(0, 45, 114)' : 'none',
       borderBottom: this.wall[2] ? '3px solid rgb(0, 45, 114)' : 'none',
