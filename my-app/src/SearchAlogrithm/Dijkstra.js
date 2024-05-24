@@ -1,17 +1,18 @@
-import { MazeW, MazeH, grid, addGrid, Block } from '../MazeAlogrithm/Block';
-
+import { MazeW, MazeH, grid, speed, addGrid, Block} from '../MazeAlogrithm/Block';
 
 export const Dijkstra = async (setBlocks) => {
     let startNode = grid.find(block => block.isStart);
     let endNode = grid.find(block => block.isGoal);
 
-    startNode.distance = 0;
-    let unvisited = [...grid];
-
     if (!startNode || !endNode) {
         console.error('Start or end node not set');
         return;
       }
+
+    startNode.distance = 0;
+    let unvisited = [...grid];
+
+
 
     const animateMaze = async () => {
         while(unvisited.length > 0){
@@ -49,7 +50,7 @@ export const Dijkstra = async (setBlocks) => {
             current.traversal = true;
             //current.visited = true;
             setBlocks([...transformGridTo2D(grid)]);
-            await new Promise(resolve => setTimeout(resolve, 50));
+            await new Promise(resolve => setTimeout(resolve, speed));
         }
     };
     const getValidNeighbors = (block) => {

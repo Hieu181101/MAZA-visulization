@@ -4,16 +4,25 @@ import { CreateMaze } from './MazeAlogrithm/Mazegen';
 import { BiTreeGen } from './MazeAlogrithm/binaryTree';
 import { PrimGen } from './MazeAlogrithm/Prim';
 import { KruskalGen } from './MazeAlogrithm/Kruskal';
-import { MazeW, MazeH, grid, addGrid, setMazeWidth, setMazeHeight } from './MazeAlogrithm/Block';
+import { MazeW, MazeH, speed, setSpeed, grid, addGrid, setMazeWidth, setMazeHeight } from './MazeAlogrithm/Block';
 import { BFS } from './SearchAlogrithm/BFS';
 import { DFS } from './SearchAlogrithm/DFS';
 import { Dijkstra } from './SearchAlogrithm/Dijkstra';
 import { AStar } from './SearchAlogrithm/AStar';
+import { IoMdArrowDropdown } from "react-icons/io";
+import { FaFlagCheckered } from "react-icons/fa";
+import { GiStarFlag } from "react-icons/gi";
+import { PiMouseLeftClickFill } from "react-icons/pi";
+import { PiMouseRightClickFill } from "react-icons/pi";
+import { FaLinkedin, FaGithub } from 'react-icons/fa';
+
 
 function App() {
   const [blocks, setBlocks] = useState([]);
   const [started, setStarted] = useState(false);
   const [selectedAlgorithm, setSelectedAlgorithm] = useState('');
+  const [currentSpeed, setCurrentSpeed] = useState('Normal'); 
+  const [currentSize, setCurrentSize] = useState('Large');
 
   useEffect(() => {
     initializeGrid();
@@ -54,16 +63,16 @@ function App() {
       case 'kruskal':
         await KruskalGen(setBlocks);
         break;
-      case 'breadthFirstSearch':
+      case 'BreadthFirstSearch':
         await BFS(setBlocks);
         break;
-      case 'depthFirstSearch':
+      case 'DepthFirstSearch':
         await DFS(setBlocks);
         break;
-      case 'dijkstra':
+      case 'Dijkstra':
         await Dijkstra(setBlocks);
         break;
-      case 'aStar':
+      case 'A*':
         await AStar(setBlocks);
         break;
       default:
@@ -134,73 +143,124 @@ function App() {
     setMazeHeight(10);
     setMazeWidth(10);
     initializeGrid();
+    setCurrentSize('Small');
     if (selectedAlgorithm) await handleStartAlgorithm(selectedAlgorithm);
   };
 
   const setMediumGrid = async () => {
-    setMazeHeight(17);
+    setMazeHeight(15);
     setMazeWidth(20);
     initializeGrid();
+    setCurrentSize('Medium');
     if (selectedAlgorithm) await handleStartAlgorithm(selectedAlgorithm);
   };
 
   const setLargeGrid = async () => {
-    setMazeHeight(17);
+    setMazeHeight(15);
     setMazeWidth(35);
     initializeGrid();
+    setCurrentSize('Large');
     if (selectedAlgorithm) await handleStartAlgorithm(selectedAlgorithm);
   };
+
+  //handle the animation of the maze
+  const setAnimationSlow = async() => {
+    setSpeed(100);
+    setCurrentSpeed('Slow');
+    if (selectedAlgorithm) await handleStartAlgorithm(selectedAlgorithm);
+  };
+
+  const setAnimationNormal = async() => {
+    setSpeed(50);
+    setCurrentSpeed('Normal');
+    if (selectedAlgorithm) await handleStartAlgorithm(selectedAlgorithm);
+  };
+
+  const setAnimationFast = async() => {
+    setSpeed(15);
+    setCurrentSpeed('Fast');
+    if (selectedAlgorithm) await handleStartAlgorithm(selectedAlgorithm);
+  };
+    
 
   return (
     <div className="App">
       <div className="navbar">
         <div className="dropdown">
-          <button className="dropbtn">Select Maze Algorithm
+          <button className="dropbtn">Select Maze Algorithm <IoMdArrowDropdown />
+
+          
             <i className="fa fa-caret-down"></i>
           </button>
-          <div className="dropdown-content">
-            <button className="content" onClick={() => handleSelectionChange({ target: { value: 'backtracking' } })}>Recursive Backtracking</button>
-            <button className="content" onClick={() => handleSelectionChange({ target: { value: 'binaryTree' } })}>Binary Tree</button>
-            <button className="content" onClick={() => handleSelectionChange({ target: { value: 'prim' } })}>Prim</button>
-            <button className="content" onClick={() => handleSelectionChange({ target: { value: 'kruskal' } })}>Kruskal</button>
+          <div className="dropdown-content"> 
+            <button className="content" onClick={() => handleSelectionChange({ target: { value: 'backtracking' } })} disabled={started} >Recursive Backtracking </button> 
+            <button className="content" onClick={() => handleSelectionChange({ target: { value: 'binaryTree' } })} disabled={started} >Binary Tree</button>
+            <button className="content" onClick={() => handleSelectionChange({ target: { value: 'prim' } })} disabled={started} >Prim</button>
+            <button className="content" onClick={() => handleSelectionChange({ target: { value: 'kruskal' } })} disabled={started} >Kruskal</button>
           </div>
         </div>
-        <button onClick={resetMaze} disabled={started}>
-          Reset Maze
-        </button>
+
 
 
         <div className="dropdown">
-          <button className="dropbtn">Select Search
+          <button className="dropbtn">Select Search <IoMdArrowDropdown />
             <i className="fa fa-caret-down"></i>
           </button>
           <div className="dropdown-content">
-            <button className="content" onClick={() => handleSelectionChange({ target: { value: 'breadthFirstSearch' } })}>breadthFirstSearch</button>
-            <button className="content" onClick={() => handleSelectionChange({ target: { value: 'depthFirstSearch' } })}>depthFirstSearch</button>
-            <button className="content" onClick={() => handleSelectionChange({ target: { value: 'dijkstra' } })}>dijkstra</button>
-            <button className="content" onClick={() => handleSelectionChange({ target: { value: 'aStar' } })}>aStar</button>
+            <button className="content" onClick={() => handleSelectionChange({ target: { value: 'BreadthFirstSearch' } })} disabled={started} > BreadthFirstSearch </button>
+            <button className="content" onClick={() => handleSelectionChange({ target: { value: 'DepthFirstSearch' } })} disabled={started} > DepthFirstSearch </button>
+            <button className="content" onClick={() => handleSelectionChange({ target: { value: 'Dijkstra' } })} disabled={started} > Dijkstra </button>
+            <button className="content" onClick={() => handleSelectionChange({ target: { value: 'A*' } })} disabled={started} > A* </button>
           </div>
         </div>
-        <button onClick={resetSearch} disabled={started}>
+
+
+        <div className="dropdown">
+          <button className="dropbtn">Size <IoMdArrowDropdown />
+            <i className="fa fa-caret-down"></i>
+          </button>
+          <div className="dropdown-content">
+            <button className={`TheSize ${currentSize === 'Small' ? 'selected' : ''}`} onClick={setSmallGrid} disabled={started}> Small Grid</button>
+            <button className={`TheSize ${currentSize === 'Medium' ? 'selected' : ''}`} onClick={setMediumGrid} disabled={started}> Medium Grid</button>
+            <button className={`TheSize ${currentSize === 'Large' ? 'selected' : ''}`} onClick={setLargeGrid} disabled={started}> Large Grid</button>
+          </div>
+        </div>
+
+
+        <div className="dropdown">
+          <button className="dropbtn">Speed <IoMdArrowDropdown />
+            <i className="fa fa-caret-down"></i>
+          </button>
+          <div className="dropdown-content">
+            <button className={`TheSize ${currentSpeed === 'Slow' ? 'selected' : ''}`} onClick={setAnimationSlow} disabled={started}> Slow</button>
+            <button className={`TheSize ${currentSpeed === 'Normal' ? 'selected' : ''}`} onClick={setAnimationNormal} disabled={started}> Normal</button>
+            <button className={`TheSize ${currentSpeed === 'Fast' ? 'selected' : ''}`} onClick={setAnimationFast} disabled={started}> Fast</button>
+          </div>
+        </div>
+
+        <button class="button button1" onClick={resetMaze} disabled={started}>
+          Reset Maze
+        </button>
+
+        <button class="button button1" onClick={resetSearch} disabled={started}>
           Reset Search
         </button>
+
       </div>
 
-
-
-      <div className="size-buttons">
-        <button onClick={setSmallGrid} disabled={started}>
-          Small Grid
-        </button>
-        <button onClick={setMediumGrid} disabled={started}>
-          Medium Grid
-        </button>
-        <button onClick={setLargeGrid} disabled={started}>
-          Large Grid
-        </button>
+      <div className = "label-container">
+        <div className='label'>
+          Start:<FaFlagCheckered /> <div className="legend-box visited"></div>
+          Goal: <GiStarFlag /> <div className="legend-box visited"></div>
+          Place Start: <PiMouseLeftClickFill /> <div className="legend-box visited"></div>
+          Place Goal: <PiMouseRightClickFill /> <div className="legend-box visited"></div>
+          Traversal: <div className="legend-box traversal"></div>
+          Path: <div className="legend-box path"></div>
+          Unvisited: <div className="legend-box unvisited"></div>
+          Current: <div className="legend-box current"></div>
+          Wall: <div className="legend-box wall"></div>
+        </div>
       </div>
-
-      <h1>Maze Generator</h1>
 
       <div className="maze-container">
         {Array.isArray(blocks) && blocks.map((row, i) => (
@@ -217,6 +277,20 @@ function App() {
           </div>
         ))}
       </div>
+
+      <footer className="footer">
+        <div className="footer-content">
+          <p>&copy; 2024 Sylas Tran</p>
+          <a href="https://www.linkedin.com/in/hcht1811/" target="_blank" rel="noopener noreferrer">
+            <FaLinkedin />
+          </a>
+          <a href="https://github.com/Hieu181101" target="_blank" rel="noopener noreferrer">
+            <FaGithub />
+          </a>
+        </div>
+      </footer>
+
+
     </div>
   );
 }

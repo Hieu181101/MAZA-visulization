@@ -1,9 +1,12 @@
 // Block.js
+import { GiStarFlag } from "react-icons/gi";
+import { FaFlagCheckered } from "react-icons/fa";
 
 //default is large
-export let MazeW = 5;
-export let MazeH = 5;
+export let MazeW = 35;
+export let MazeH = 15;
 export let grid = [];
+export let speed = 50;
 
 export const setMazeWidth = (width) => {
   MazeW = width;
@@ -11,6 +14,10 @@ export const setMazeWidth = (width) => {
 
 export const setMazeHeight = (height) => {
   MazeH = height;
+};
+
+export const setSpeed  = (newspeed) => {
+  speed = newspeed;
 };
 
 // Create a Block class that represents a block in the maze
@@ -48,7 +55,7 @@ export class Block {
       borderRight: this.wall[1] ? '3px solid rgb(0, 45, 114)' : 'none',
       borderBottom: this.wall[2] ? '3px solid rgb(0, 45, 114)' : 'none',
       borderLeft: this.wall[3] ? '3px solid rgb(0, 45, 114)' : 'none',
-      backgroundColor: this.isStart ? 'green' : this.isGoal ? 'red' : this.path ? 'purple' : this.traversal ? 'yellow' : this.index ? 'blue' : (this.inFronter ? 'yellow' : (this.visited ? 'white' : 'grey')),
+      backgroundColor: this.path ? 'purple' : this.traversal ? 'yellow' : this.index ? 'Blue' : (this.inFronter ? 'yellow' : (this.visited ? 'white' : 'grey')),
       display: 'flex',
       justifyContent: 'center',
       alignItems: 'center',
@@ -81,6 +88,9 @@ export class Block {
 
 // Initialize the grid and create the maze
 export function addGrid() {
+  const startBlock = grid.find(block => block.isStart);
+  const goalBlock = grid.find(block => block.isGoal);
+  
   grid.length = 0; // Reset the grid
   for (let i = 0; i < MazeH; i++) {
     for (let j = 0; j < MazeW; j++) {
@@ -92,5 +102,12 @@ export function addGrid() {
     for (let j = 0; j < MazeW; j++) {
       grid[i * MazeW + j].findNeighbors();
     }
+  }
+
+  if (startBlock) {
+    grid[startBlock.row * MazeW + startBlock.column].isStart = true;
+  }
+  if (goalBlock) {
+    grid[goalBlock.row * MazeW + goalBlock.column].isGoal = true;
   }
 }

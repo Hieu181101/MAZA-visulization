@@ -1,5 +1,4 @@
-import { MazeW, MazeH, grid, addGrid, Block } from '../MazeAlogrithm/Block';
-
+import { MazeW, MazeH, grid, speed, addGrid, Block} from '../MazeAlogrithm/Block';
 
 
 export const BFS = async (setBlocks) => {
@@ -43,7 +42,7 @@ export const BFS = async (setBlocks) => {
             current.traversal = true;
             current.visited = true;
             setBlocks([...transformGridTo2D(grid)]);
-            await new Promise(resolve => setTimeout(resolve, 50));
+            await new Promise(resolve => setTimeout(resolve, speed));
             
             }
 

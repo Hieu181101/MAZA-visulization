@@ -1,4 +1,4 @@
-import { MazeW, MazeH, grid, addGrid, Block } from './Block.js';
+import { MazeW, MazeH, grid, speed, addGrid, Block} from './Block.js';
 
 // Backtracking algorithm to break the wall and create a path
 export async function MazeGenerator(setBlocks) {
@@ -59,7 +59,7 @@ export async function MazeGenerator(setBlocks) {
     setBlocks([...grid2D]);
     
     if (current) {
-      await new Promise(resolve => setTimeout(resolve, 50));
+      await new Promise(resolve => setTimeout(resolve, speed));
       await step();
     }
   };

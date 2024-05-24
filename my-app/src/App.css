@@ -28,29 +28,13 @@
   color: #61dafb;
 }
 
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
-}
+
 
 .maze-container {
   display: flex;
   flex-direction: column;
   align-items: center;
-}
-
-.Button-container {
-  background-color: #8129df;
-  height: 100px;
-  width: 100%;
-  display: flex;
-  justify-content: flex-start;
-  align-items: center;
-  padding-left: 20px;
+  margin-top: 15px;
 }
 
 .Dropdown-container select {
@@ -84,23 +68,18 @@
 }
 
 .block.start {
-  background-color: green;
+  background-image: url('../src/start_flag.png');
+  background-size: cover;
 }
 
 .block.goal {
-  background-color: red;
+  background-image: url('../src/finish.png');
+  background-size: cover;
 }
 
-.block.path {
-  background-color: purple;
-}
 
-.block.traversal {
-  background-color: yellow;
-}
-
-.block.current {
-  background-color: blue;
+.block.index {
+  background-color: rgb(0, 0, 94);
 }
 
 .block.frontier {
@@ -135,10 +114,23 @@
   animation: traversalAnimation 1s infinite alternate;
 }
 
+.block.path {
+  animation: PathAnimation 2s infinite alternate;
+}
+
+@keyframes PathAnimation {
+  from {
+    background-color: purple;
+  }
+  to {
+    background-color: rgb(227, 89, 248);
+  }
+}
+
 /* Navbar container */
 .navbar {
   overflow: hidden;
-  background-color: #333;
+  background-color: #2f2d2d;
   font-family: Arial;
   display: flex;
   justify-content: center;
@@ -158,8 +150,10 @@
   border: none;
   outline: none;
   color: white;
-  padding: 14px 16px;
+  padding: 16px 18px;
   background-color: inherit;
+  flex: center;
+  align-items: center;
   font-family: inherit; /* Important for vertical align on mobile phones */
   margin: 0; /* Important for vertical align on mobile phones */
 }
@@ -168,14 +162,14 @@
 
 /* Add a red background color to navbar links on hover */
 .navbar a:hover, .dropdown:hover .dropbtn, .dropdown-content .content:hover{
-  background-color: red;
+  background-color: #f46687;
 }
 
 /* Dropdown content (hidden by default) */
 .dropdown-content {
   display: none;
   position: absolute;
-  background-color: #f9f9f9;
+  background-color: #2f2d2d;
   padding: 14px 16px;
   min-width: 100px;
   box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
@@ -185,7 +179,19 @@
 /* Links inside the dropdown */
 .dropdown-content .content {
   float: none;
-  color: black;
+  color: rgb(255, 255, 255);
+  padding: 12px 16px;
+  text-decoration: none;
+  display: flex;
+  text-align: center;
+  border: none;
+  background: none;
+  cursor: pointer;
+}
+
+.dropdown-content .TheSize {
+  float: none;
+  color: rgb(255, 255, 255);
   padding: 12px 16px;
   text-decoration: none;
   display: flex;
@@ -203,9 +209,145 @@
 
 /* Add a grey background color to dropdown links on hover */
 .dropdown-content .content:hover {
-  background-color: #ddd;
+  background-color: #f46687;
 }
 
 .button {
+  background-color: #04AA6D; /* Green */
   border: none;
+  color: white;
+  padding: 15px 32px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+  margin: 4px 2px;
+  cursor: pointer;
 }
+
+.button1 {
+  border-radius: 4px;
+  background-color: #f46687;
+  border: none;
+  color: #FFFFFF;
+  text-align: center;
+  font-size: 16px;
+  padding: 14px 16px;
+  width: 100px;
+  transition: all 0.5s;
+  cursor: pointer;
+  margin: 5px;
+}
+
+.button1:hover {background-color: #f3426b}
+
+.button1:active {
+  background-color: #f3426b;
+  box-shadow: 0 5px #666;
+  transform: translateY(4px);
+}
+
+
+.TheSize.selected {
+  background-color: #f46687; /* Highlight color */
+  color: white;
+}
+
+.barshow{
+  overflow: hidden;
+  background-color: #ffffff;
+  font-family: Arial;
+  display: flex;
+  text-align: center;
+  justify-content: center;
+  align-items: center;
+}
+
+.label-container {
+  display: flex;
+  font-family: Arial;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 10px;
+}
+
+
+.label {
+  display: flex;
+  align-items: center;
+  gap: 10px; 
+  margin-top: 15px;
+}
+
+.legend-container {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+
+.legend {
+  display: flex;
+  align-items: center;
+  margin-top: 5px;
+  text-align: center; 
+}
+
+.legend-box {
+  width: 20px;
+  height: 20px;
+  margin-right: 10px;
+  display: flex;
+  align-items: center;
+  
+}
+
+.legend-box.current {
+  background-color: blue;
+}
+
+.legend-box.unvisited {
+  background-color: grey;
+}
+
+.legend-box.visited {
+  background-color: white;
+}
+
+.legend-box.traversal {
+  background-color: yellow;
+}
+
+.legend-box.path {
+  background-color: purple;
+}
+
+.legend-box.wall {
+  background-color: rgb(0, 45, 114);
+}
+
+.footer {
+  background-color: rgb(241, 73, 101);
+  padding: 1px;
+  position: fixed;
+  bottom: 0;
+  width: 100%;
+  text-align: center;
+  justify-content: center;
+  align-items: center;
+}
+
+.footer-content {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+  font-size: 0.9em;
+}
+
+.footer-content a {
+  color: black;
+  font-size: 1.0em;
+  text-decoration: none;
+  margin-top: 5px;
+}
+

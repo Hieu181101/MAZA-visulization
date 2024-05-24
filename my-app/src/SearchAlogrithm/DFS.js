@@ -1,5 +1,4 @@
-import { MazeW, MazeH, grid, addGrid, Block } from '../MazeAlogrithm/Block';
-
+import { MazeW, MazeH, grid, speed, addGrid, Block} from '../MazeAlogrithm/Block';
 
 export const DFS = async (setBlocks) => {
     let startNode = grid.find(block => block.isStart);
@@ -42,7 +41,7 @@ export const DFS = async (setBlocks) => {
             current.traversal = true;
             current.visited = true;
             setBlocks([...transformGridTo2D(grid)]);
-            await new Promise(resolve => setTimeout(resolve, 50));
+            await new Promise(resolve => setTimeout(resolve, speed));
         }
     };
 

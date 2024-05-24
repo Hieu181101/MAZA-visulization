@@ -1,5 +1,4 @@
-import { MazeW, MazeH, grid, addGrid, Block } from '../MazeAlogrithm/Block';
-
+import { MazeW, MazeH, grid, speed, addGrid, Block} from '../MazeAlogrithm/Block';
 
 const manhattanDistance = (node, goal) => {
     return Math.abs(node.row - goal.row) + Math.abs(node.column - goal.column);
@@ -62,7 +61,7 @@ export const AStar = async (setBlocks) => {
 
             current.traversal = true;
             setBlocks([...transformGridTo2D(grid)]);
-            await new Promise(resolve => setTimeout(resolve, 50));
+            await new Promise(resolve => setTimeout(resolve, speed));
         }
     };
 

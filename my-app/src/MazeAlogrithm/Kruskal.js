@@ -1,5 +1,4 @@
-import { MazeW, MazeH, grid, addGrid, Block } from './Block.js';
-
+import { MazeW, MazeH, grid, speed, addGrid, Block} from './Block.js';
 
 export const KruskalGen = async (setBlocks) => {
     /*1. Throw all of the edges in the graph into a big burlap sack. (Or, you know, a set or something.)
@@ -71,7 +70,7 @@ export const KruskalGen = async (setBlocks) => {
 
 
                 setBlocks([...transformGridTo2D()]);
-                await new Promise(resolve => setTimeout(resolve, 50))
+                await new Promise(resolve => setTimeout(resolve, speed))
                 
             }
             block1.index = false;

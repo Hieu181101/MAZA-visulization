@@ -1,4 +1,4 @@
-import { MazeW, MazeH, grid, addGrid, Block } from './Block.js';
+import { MazeW, MazeH, grid, speed, addGrid, Block} from './Block.js';
 
 export const PrimGen = async (setBlocks) => {
   // Ensure all blocks are reset to their initial state
@@ -69,7 +69,7 @@ export const PrimGen = async (setBlocks) => {
 
       addFronter(next);
       setBlocks([...transformGridTo2D()]);
-      await new Promise(resolve => setTimeout(resolve, 50));
+      await new Promise(resolve => setTimeout(resolve, speed));
     }
     current.index = false;
     setBlocks([...transformGridTo2D()]);

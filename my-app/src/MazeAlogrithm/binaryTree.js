@@ -1,4 +1,4 @@
-import { MazeW, MazeH, grid, addGrid, Block} from './Block.js';
+import { MazeW, MazeH, grid, speed, addGrid, Block} from './Block.js';
 
 
 export const BiTreeGen = async (setBlocks) => {
@@ -39,7 +39,7 @@ export const BiTreeGen = async (setBlocks) => {
           setBlocks([...transformGridTo2D()]);
 
           // Delay for animation
-          await new Promise(resolve => setTimeout(resolve, 50));
+          await new Promise(resolve => setTimeout(resolve,speed ));
           current.index = false
         }
         current.visited = true;
