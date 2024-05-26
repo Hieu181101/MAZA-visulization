@@ -159,9 +159,7 @@ function App() {
   };
 
   const resetSearch = () => {
-    grid.forEach(block => {
-      block.visited = true;
-    });
+    resetBlocks();
     setBlocks([...transformGridTo2D(grid)]);
   };
 
