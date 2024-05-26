@@ -4,6 +4,7 @@ export const PrimGen = async (setBlocks) => {
   // Ensure all blocks are reset to their initial state
   grid.forEach(block => {
     block.visited = false;
+    block.Colorvisited = true;
     block.index = false; 
     block.inFronter = false;
     block.wall = [true, true, true, true];
@@ -18,6 +19,7 @@ export const PrimGen = async (setBlocks) => {
   let current = grid[currentIndex];
 
   current.visited = true;
+  current.Colorvisited = true;
   current.index = true; // Set the current block
   inMaze.push(current);
 
@@ -63,6 +65,7 @@ export const PrimGen = async (setBlocks) => {
       }
 
       next.visited = true;
+      next.Colorvisited = true;
       next.inFronter = false;
       inMaze.push(next);
       fronter = fronter.filter(block => block !== next); // Remove next from fronter

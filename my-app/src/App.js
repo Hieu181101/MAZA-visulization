@@ -23,6 +23,7 @@ function App() {
   const [selectedAlgorithm, setSelectedAlgorithm] = useState('');
   const [currentSpeed, setCurrentSpeed] = useState('Normal'); 
   const [currentSize, setCurrentSize] = useState('Large');
+  const [mazeGenerated, setMazeGenerated] = useState(false);
 
   useEffect(() => {
     initializeGrid();
@@ -33,6 +34,7 @@ function App() {
     resetBlocks();
     setBlocks([...transformGridTo2D(grid)]);
     setStarted(false);
+    setMazeGenerated(false);
   };
 
   const resetBlocks = () => {
@@ -53,27 +55,50 @@ function App() {
     switch (algorithm) {
       case 'backtracking':
         await CreateMaze(setBlocks);
+        setMazeGenerated(true); 
         break;
       case 'binaryTree':
         await BiTreeGen(setBlocks);
+        setMazeGenerated(true); 
         break;
       case 'prim':
         await PrimGen(setBlocks);
+        setMazeGenerated(true); 
         break;
       case 'kruskal':
         await KruskalGen(setBlocks);
+        setMazeGenerated(true); 
         break;
       case 'BreadthFirstSearch':
-        await BFS(setBlocks);
+        if (mazeGenerated) {
+          grid.forEach(block => block.visited = true);
+          await BFS(setBlocks);
+        } else {
+          alert('Please generate a maze first!');
+        }
         break;
       case 'DepthFirstSearch':
-        await DFS(setBlocks);
+        if (mazeGenerated) {
+          grid.forEach(block => block.visited = true);
+          await DFS(setBlocks);
+        } else {
+          alert('Please generate a maze first!');
+        }
         break;
       case 'Dijkstra':
-        await Dijkstra(setBlocks);
+        if (mazeGenerated) {
+          await Dijkstra(setBlocks);
+        } else {
+          alert('Please generate a maze first!');
+        }
         break;
       case 'A*':
-        await AStar(setBlocks);
+        if (mazeGenerated) {
+          grid.forEach(block => block.visited = true);
+          await AStar(setBlocks);
+        } else {
+          alert('Please generate a maze first!');
+        }
         break;
       default:
         break;
@@ -134,7 +159,9 @@ function App() {
   };
 
   const resetSearch = () => {
-    resetBlocks();
+    grid.forEach(block => {
+      block.visited = true;
+    });
     setBlocks([...transformGridTo2D(grid)]);
   };
 
@@ -142,44 +169,38 @@ function App() {
   const setSmallGrid = async () => {
     setMazeHeight(10);
     setMazeWidth(10);
-    initializeGrid();
     setCurrentSize('Small');
-    if (selectedAlgorithm) await handleStartAlgorithm(selectedAlgorithm);
+    initializeGrid();
   };
 
   const setMediumGrid = async () => {
     setMazeHeight(15);
     setMazeWidth(20);
-    initializeGrid();
     setCurrentSize('Medium');
-    if (selectedAlgorithm) await handleStartAlgorithm(selectedAlgorithm);
+    initializeGrid();
   };
 
   const setLargeGrid = async () => {
     setMazeHeight(15);
     setMazeWidth(35);
-    initializeGrid();
     setCurrentSize('Large');
-    if (selectedAlgorithm) await handleStartAlgorithm(selectedAlgorithm);
+    initializeGrid();
   };
 
   //handle the animation of the maze
   const setAnimationSlow = async() => {
     setSpeed(100);
     setCurrentSpeed('Slow');
-    if (selectedAlgorithm) await handleStartAlgorithm(selectedAlgorithm);
   };
 
   const setAnimationNormal = async() => {
     setSpeed(50);
     setCurrentSpeed('Normal');
-    if (selectedAlgorithm) await handleStartAlgorithm(selectedAlgorithm);
   };
 
   const setAnimationFast = async() => {
     setSpeed(15);
     setCurrentSpeed('Fast');
-    if (selectedAlgorithm) await handleStartAlgorithm(selectedAlgorithm);
   };
     
 

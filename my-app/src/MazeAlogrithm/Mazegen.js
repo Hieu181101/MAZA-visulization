@@ -6,6 +6,7 @@ export async function MazeGenerator(setBlocks) {
   let current = grid[0]; // Always start at 0,0 in the grid 
 
   current.visited = true;
+  current.Colorvisited = true;
 
   const step = async () => {
     let neighbors = current.neighbors.filter(neighbor => !neighbor.visited);
@@ -37,6 +38,7 @@ export async function MazeGenerator(setBlocks) {
       stack.push(current);
       current = next;
       current.visited = true;
+      current.Colorvisited = true;
     } else {
       current.index = false;
       if (stack.length > 0) {
@@ -72,6 +74,7 @@ export const CreateMaze = async (setBlocks) => {
   // Ensure all blocks are reset to their initial state
   grid.forEach(block => {
     block.visited = false;
+    block.Colorvisited = false;
     block.index = false;
     block.wall = [true, true, true, true];
   });

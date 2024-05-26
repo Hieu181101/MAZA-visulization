@@ -2,6 +2,7 @@ import { MazeW, MazeH, grid, speed, addGrid, Block} from '../MazeAlogrithm/Block
 
 
 export const BFS = async (setBlocks) => {
+
     let startNode = grid.find(block => block.isStart);
     let endNode = grid.find(block => block.isGoal);
 
@@ -9,6 +10,11 @@ export const BFS = async (setBlocks) => {
         console.error('Start or end node not set');
         return;
     }
+
+    grid.forEach(block => {
+        block.Colorvisited = true; 
+    });
+
 
     let queue = [startNode];
     let visited = new Set();
@@ -40,7 +46,6 @@ export const BFS = async (setBlocks) => {
             }
             
             current.traversal = true;
-            current.visited = true;
             setBlocks([...transformGridTo2D(grid)]);
             await new Promise(resolve => setTimeout(resolve, speed));
             

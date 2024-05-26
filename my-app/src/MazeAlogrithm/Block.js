@@ -38,6 +38,7 @@ export class Block {
     this.f = Infinity; // For A* algorithm
     this.previous = null;
     this.neighbors = [];
+    this.Colorvisited = false;
   }
 
   findNeighbors() {
@@ -55,7 +56,7 @@ export class Block {
       borderRight: this.wall[1] ? '3px solid rgb(0, 45, 114)' : 'none',
       borderBottom: this.wall[2] ? '3px solid rgb(0, 45, 114)' : 'none',
       borderLeft: this.wall[3] ? '3px solid rgb(0, 45, 114)' : 'none',
-      backgroundColor: this.path ? 'purple' : this.traversal ? 'yellow' : this.index ? 'Blue' : (this.inFronter ? 'yellow' : (this.visited ? 'white' : 'grey')),
+      backgroundColor: this.path ? 'purple' : this.traversal ? 'yellow' : this.index ? 'Blue' : (this.inFronter ? 'yellow' : (this.Colorvisited ? 'white' : 'grey')),
       display: 'flex',
       justifyContent: 'center',
       alignItems: 'center',

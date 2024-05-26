@@ -5,6 +5,7 @@ const manhattanDistance = (node, goal) => {
 };
 
 export const AStar = async (setBlocks) => {
+
     let startNode = grid.find(block => block.isStart);
     let endNode = grid.find(block => block.isGoal);
 
@@ -12,6 +13,10 @@ export const AStar = async (setBlocks) => {
         console.error('Start or end node not set');
         return;
     }
+
+    grid.forEach(block => {
+        block.Colorvisited = true; 
+    });
 
     startNode.g = 0;
     startNode.f = manhattanDistance(startNode, endNode);

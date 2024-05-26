@@ -5,6 +5,7 @@ export const BiTreeGen = async (setBlocks) => {
   // Ensure all blocks are reset to their initial state
   grid.forEach(block => {
     block.visited = false;
+    block.Colorvisited = false;
     block.index = false;
     block.inFronter = false;
     block.wall = [true, true, true, true];
@@ -35,6 +36,7 @@ export const BiTreeGen = async (setBlocks) => {
               break;
           }
           current.visited = true;
+          current.Colorvisited = true;
           current.index = true;
           setBlocks([...transformGridTo2D()]);
 
@@ -43,6 +45,7 @@ export const BiTreeGen = async (setBlocks) => {
           current.index = false
         }
         current.visited = true;
+        current.Colorvisited = true;
       }
     }
     setBlocks([...transformGridTo2D()]);

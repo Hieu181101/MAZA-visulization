@@ -1,6 +1,8 @@
 import { MazeW, MazeH, grid, speed, addGrid, Block} from '../MazeAlogrithm/Block';
 
 export const Dijkstra = async (setBlocks) => {
+
+
     let startNode = grid.find(block => block.isStart);
     let endNode = grid.find(block => block.isGoal);
 
@@ -8,6 +10,11 @@ export const Dijkstra = async (setBlocks) => {
         console.error('Start or end node not set');
         return;
       }
+    
+      grid.forEach(block => {
+        block.Colorvisited = true; 
+    });
+
 
     startNode.distance = 0;
     let unvisited = [...grid];
@@ -29,7 +36,7 @@ export const Dijkstra = async (setBlocks) => {
                 break;
             }
             
-            current.visited = true;
+            
             current.traversal = true;
             setBlocks([...transformGridTo2D(grid)]);
 
@@ -48,7 +55,6 @@ export const Dijkstra = async (setBlocks) => {
                 
             }
             current.traversal = true;
-            //current.visited = true;
             setBlocks([...transformGridTo2D(grid)]);
             await new Promise(resolve => setTimeout(resolve, speed));
         }

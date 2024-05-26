@@ -9,6 +9,7 @@ export const KruskalGen = async (setBlocks) => {
     // Ensure all blocks are reset to their initial state
   grid.forEach(block => {
     block.visited = false;
+    block.Colorvisited = false;
     block.index = false; 
     block.wall = [true, true, true, true];
   });
@@ -44,6 +45,8 @@ export const KruskalGen = async (setBlocks) => {
                 block2.index = true;
                 block1.visited = true;
                 block2.visited = true;
+                block1.Colorvisited = true;
+                block2.Colorvisited = true;
 
                 let x = block1.row - block2.row;
                 if (x === 1) { // moving top
