@@ -31,6 +31,7 @@ export const Dijkstra = async (setBlocks) => {
               }
 
               if (current === endNode){
+                current.traversal = true;
                 console.log('Path found!');
                 reconstructPath(endNode);
                 break;
@@ -81,12 +82,21 @@ export const Dijkstra = async (setBlocks) => {
 
     };
 
-    const reconstructPath = (endNode) => {
+    const reconstructPath = async (endNode) => {
         let current = endNode;
+        const pathBlocks = [];
+      
+        // Collect all blocks in the path
         while (current) {
-          current.path = true; // Mark the block as part of the path
-          setBlocks([...transformGridTo2D(grid)]);
+          pathBlocks.push(current);
           current = current.previous;
+        }
+      
+        // Apply the path class to each block with a delay
+        for (let i = pathBlocks.length - 1; i >= 0; i--) {
+          pathBlocks[i].path = true;
+          setBlocks([...transformGridTo2D(grid)]);
+          await new Promise(resolve => setTimeout(resolve, 100)); // Adjust the delay as needed
         }
       };
 

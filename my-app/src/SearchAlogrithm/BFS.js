@@ -77,15 +77,24 @@ export const BFS = async (setBlocks) => {
         };
 
 
-        const reconstructPath = (endNode, parentMap) => {
+        const reconstructPath = async (endNode, parentMap) => {
             let current = endNode;
+            const pathBlocks = [];
+          
+            // Collect all blocks in the path using the parent map
             while (current) {
-                current.path = true; // Mark the block as part of the path
-                setBlocks([...transformGridTo2D(grid)]);
-                current = parentMap.get(current);
+              pathBlocks.push(current);
+              current = parentMap.get(current);
             }
-        };
-
+          
+            // Apply the path class to each block with a delay
+            for (let i = pathBlocks.length - 1; i >= 0; i--) {
+              pathBlocks[i].path = true;
+              setBlocks([...transformGridTo2D(grid)]);
+              await new Promise(resolve => setTimeout(resolve, 100)); // Adjust the delay as needed
+            }
+          };
+          
         const transformGridTo2D = (grid) => {
             const grid2D = [];
             for (let i = 0; i < MazeH; i++) {

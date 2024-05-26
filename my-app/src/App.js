@@ -287,7 +287,7 @@ function App() {
             {row.map((block, j) => (
               <div
                 key={j}
-                className={`block ${block.isStart ? 'start' : ''} ${block.isGoal ? 'goal' : ''}`}
+                className={`block ${block.isStart ? 'start' : ''} ${block.isGoal ? 'goal' : ''} ${block.path ? 'path' : ''}`}
                 style={block.show()}
                 onMouseDown={(e) => handleBlockClick(e, block.row, block.column)}
                 onContextMenu={(e) => e.preventDefault()}
