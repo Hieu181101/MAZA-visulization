@@ -9,10 +9,10 @@ MAZA stands for Maze Alogrithm is a project that showcase different algorthims u
 <div>
   <img src="https://img.shields.io/badge/react-%2320232a.svg?style=for-the-badge&logo=react&logoColor=%2361DAFB" alt="react icon">
   </br>
+  <img src="https://img.shields.io/badge/javascript-%23323330.svg?style=for-the-badge&logo=javascript&logoColor=%23F7DF1E" alt="javascript icon">
+  <br>
   <img src="https://img.shields.io/badge/typescript-%23007ACC.svg?style=for-the-badge&logo=typescript&logoColor=white" alt="typescript icon">
   </br>
-  <img src="https://img.shields.io/badge/Git-F05032.svg?style=for-the-badge&logo=git&logoColor=white" alt="Git">
-  <br>
   <img src="https://img.shields.io/badge/npm-CB3837.svg?style=for-the-badge&logo=npm&logoColor=white" alt="npm">
 </div>
 
@@ -36,8 +36,35 @@ MAZA stands for Maze Alogrithm is a project that showcase different algorthims u
 - **A***: The A* Algorithm starts at the designated start location and uses both the actual cost from the start (g(x)) and a heuristic estimate of the cost to the goal (h(x)) to determine the shortest path to the goal. It maintains a priority queue to expand the cell with the lowest total cost of (f(x) = g(x) + h(x)). The heuristic function would estimates the shortest path to the goal, guiding the search more efficiently towards the target. The algorithm ends when the goal cell is reached with the most cost-effective path. 
 
 ## Look Through
+![Screenshot (3)](https://github.com/Hieu181101/MAZA-visulization/assets/135567323/bcac7ded-c160-42b3-bc8e-e3994f4de9d5)
 
+![Screenshot (10)](https://github.com/Hieu181101/MAZA-visulization/assets/135567323/af1d346e-8d36-42ba-9e7f-d909bb1bc936)
 
+![Screenshot (6)](https://github.com/Hieu181101/MAZA-visulization/assets/135567323/1c7e18b0-43a4-43f0-b3fb-2a0ce732a1aa)
+## Getting Started 
+To get a local copy up and running follow these simple steps.
+### Prerequisites
+
+Make sure you have Node.js and npm installed. You can download them from [Node.js](https://nodejs.org/).
+
+## Steps: 
+
+1. Clone the repository (HTTPS).
+  ```sh
+  git clone https://github.com/Hieu181101/MAZA-visulization
+  ```
+2. Navigate to directory
+  ```sh
+  cd MAZA-visulization
+  ```
+2. Install NPM packages
+  ```sh
+  npm install
+  ```
+3. Run the project
+  ```sh
+  npm start
+  ```
 
 
 
