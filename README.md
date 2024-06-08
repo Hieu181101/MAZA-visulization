@@ -1,5 +1,5 @@
 # MAZA Visulization 
-MAZA stands for Maze Alogrithm is a project that showcase different algorthims used for generating a Maze and various Search Alogrithm to show how to get from point A to B. 
+MAZA stands for Maze Alogrithm is a project that showcase different algorthims used for generating a Maze and various Search Alogrithm to show how to get from point A to B.
 
 ## Website
 [View Project here !](https://maza-visulization.vercel.app/)
